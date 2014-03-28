@@ -5,7 +5,6 @@ user_data/pools/
 user_data/wallets/
 pure-assets/
 vectorstock/
-.idea/
 web.config
 *.bak
 Thumbs.db

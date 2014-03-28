@@ -87,48 +87,54 @@ function restoreDashboard() {
 
 // Smooth scroll to active rig from the Overview panel
 // TODO: Bug - when the Tools --> Active Panel link is clicked, it animates down, but then 'locks' the user there when they try to scroll
+// possibly caused by where this function is (just below) and the fact that is also exists in 'rigwatch-ui.js'
 
 $(function() {
-  $('#overview').on('click', '.anchor-offset', function(e) {
-    e.preventDefault();
-    var target = $(this).attr('href');
-    $('body').scrollTo(target, 750, { margin: true, offset: -120 });
-  });
+    $('#overview').on('click', '.anchor-offset', function(e) {
+        e.preventDefault();
+        var target = $(this).attr('href');
+        $('body').scrollTo(target, 750, { margin: true, offset: -120 });
+    });
+    
+//    $('.anchor').click(function() {
+//        var target = $(this).attr('href');
+//        $('body').scrollTo(target, 750, { margin: true });
+//    });
 });
 
 function callAlert() {
     $(function(){
 
-      Messenger.options = {
-       extraClasses: "messenger-fixed messenger-on-bottom",
-       theme: "flat"
-      };
-      
-      var steps = [
-        function() {
-          var msg = Messenger().post({
-            message: 'Refreshing Content...',
-            type: 'info',
-            actions: false
-          });
-          setTimeout(function(){
-            msg.update({
-            message: 'Update Complete!',
-            type: 'success',
-            actions: false
-            });
-          }, 4000);
-          setTimeout(function(){ msg.hide(); }, 8000);
-        }
-      ];
-      
-      var i = 1;
-      
-      steps[0]();
-      setInterval(function(){
-       steps[i]();
-       i = (i + 1) % steps.length;
-      }, 6000);
+     Messenger.options = {
+      extraClasses: "messenger-fixed messenger-on-bottom",
+      theme: "flat"
+     };
+
+     var steps = [
+      function() {
+        var msg = Messenger().post({
+         message: 'Refreshing Content...',
+         type: 'info',
+         actions: false
+        });
+        setTimeout(function(){
+         msg.update({
+          message: 'Update Complete!',
+          type: 'success',
+          actions: false
+         });
+        }, 4000);
+        setTimeout(function(){ msg.hide(); }, 8000);
+      }
+     ];
+
+     var i = 1;
+
+     steps[0]();
+     setInterval(function(){
+      steps[i]();
+      i = (i + 1) % steps.length;
+     }, 6000);
 
     });
 }
@@ -376,5 +382,17 @@ $(document).ready(function() {
     $.cookie('cryptoglance_version', true, { expires: 3 });
     $('#alert-update').slideUp('fast');
   });
+  
+    // Delete
+    $('.btn-delete').click(function() {
+        $('#deletePrompt').attr('data-type', $(this).parentsUntil('.panel').parent().attr('data-type'));
+        $('#deletePrompt').attr('data-id', $(this).parentsUntil('.panel').parent().attr('data-id'));
+    });
+  
+    $('#deletePrompt').on('shown.bs.modal', function () {
+        $('.modal-body', this).html($('.modal-body', this).html().replace(/%PANNELNAME%/g, 'pannelname'));
+        $('input[name="type"]', this).val($(this).attr('data-type'));
+        $('input[name="id"]', this).val($(this).attr('data-id'));
+    });
   
 });

@@ -59,6 +59,40 @@ class Class_Miners {
     
         $this->_miners[$minerId-1]->switchPool($poolId-1);
     }
+    public function enableDevices() {
+        $minerId = intval($_GET['miner']);
+        $devId = intval($_GET['dev']);
+        
+        if ($minerId == 0) {
+            return null;
+        }
+        
+        // If devId is 0, it means all devices
+        if ($devId == 0) {
+            $devId = null;
+        } else {
+            $devId = ($devId-1);
+        }
+    
+        $this->_miners[$minerId-1]->enableDevices($devId);
+    }
+    public function disableDevices() {
+        $minerId = intval($_GET['miner']);
+        $devId = intval($_GET['dev']);
+        
+        if ($minerId == 0) {
+            return null;
+        }
+        
+        // If devId is 0, it means all devices
+        if ($devId == 0) {
+            $devId = null;
+        } else {
+            $devId = ($devId-1);
+        }
+
+        $this->_miners[$minerId-1]->disableDevices($devId);
+    }
     public function restart() {
         $minerId = intval($_GET['miner']);
         
