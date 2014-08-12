@@ -9,3 +9,6 @@ vectorstock/
 web.config
 *.bak
 Thumbs.db
+*.sublime-project
+*.sublime-workspace
+.DS_Store
